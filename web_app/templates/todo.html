@@ -1,0 +1,15 @@
+<form action="/new" method="POST">
+  <input type="text" name="name"></input>
+  <input type="text" name="description"></input>
+  <input type="submit"></input>
+</form>
+
+{% for item in items %}
+  <h1> {{ item._id }} </h1>
+  <p> {{ item.ip }} <p>
+  <p> {{ item.type }} <p>
+  <p> {{ item.parent }} <p>
+  <p> {{ item.child }} <p>
+  <p> {{ item.host_name }} <p>
+  <p> {{ item.exposed_ports }} <p>
+{% endfor %}
