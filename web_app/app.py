@@ -28,10 +28,11 @@ def todo():
     items = query_all(query3)
     #server_list_all = query_all(None)
     #items = server_list_all
-    l = list(items)
+    #l = list(items)
+    list_all = dereference_children(items)
     #la = list(server_list_all)
-    js = jsonify(l)
-    return str(l)
+    #js = jsonify(l)
+    return str(list_all)
 
 @app.route('/new', methods=['POST'])
 def new():
@@ -67,10 +68,9 @@ def dereference_children(hware_dict):
 def __de_children(parent, servers_dict):
     if 'child' in parent:
         # There can be multiple children per parent
+        list_t = []
         child_list = parent['child']
-        print(child_list)
-        #parent['child'] = 
-        [__de_children(servers_dict[x], servers_dict) for x in child_list]
+        parent['child'] = [__de_children(servers_dict[x], servers_dict) for x in child_list]
     return parent
 
 def get_server_dict():
