@@ -1,14 +1,7 @@
 [  
    {  
       "_id":1.0,
-      "child":[  
-         {  
-            "m_id":2.0
-         },
-         {  
-            "m_id":5.0
-         }
-      ],
+      "child":[2.0, 5.0],
       "type":"hardware",
       "ip":"10.10.1.150",
       "host_name":"XenServer2",
@@ -20,44 +13,29 @@
    },
    {  
       "_id":2.0,
-      "parent":{  
-         "m_id":1.0
-      },
-      "child":[  
-         {  
-            "m_id":3.0
-         },
-         {  
-            "m_id":4.0
-         }
-      ],
+      "parent": 1.0,
+      "child":[3.0,4.0],
       "type":"virtual",
       "ip":"10.10.10.16",
       "host_name":"doughnut"
    },
    {  
       "_id":3.0,
-      "parent":{  
-         "m_id":2.0
-      },
+      "parent": 2.0,
       "type":"docker",
       "host_name":"web_php",
       "exposed_ports":80.0
    },
    {  
       "_id":4.0,
-      "parent":{  
-         "m_id":2.0
-      },
+      "parent": 2.0,
       "type":"docker",
       "host_name":"mysql_db",
       "exposed_ports":3306.0
    },
    {  
       "_id":5.0,
-      "parent":{  
-         "m_id":1.0
-      },
+      "parent": 1.0,
       "type":"virtual",
       "ip":[  
          "10.10.0.145",
