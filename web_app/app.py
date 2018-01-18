@@ -11,7 +11,7 @@ client = MongoClient(
 #db = client.tododb
 db = client.servers
 collection = db.machines
-server_list_all = query_all(None)
+#server_list_all = query_all(None)
 
 @app.route('/')
 def hello():
