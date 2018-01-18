@@ -11,7 +11,8 @@ client = MongoClient(
 #db = client.tododb
 db = client.servers
 collection = db.machines
-server_list_all = []
+#server_list_all = []
+#server_dict_all = {}
 
 @app.route('/')
 def hello():
@@ -19,18 +20,18 @@ def hello():
 
 @app.route('/todo')
 def todo():
-
+    #init()
     #_items = db.machines.find({'child'})
     query1 = {'child':{'$exists':True}}
     query2 = None
     query3 = {'type':'hardware'}
-    server_list_all = query_all(None)
     items = query_all(query3)
+    #server_list_all = query_all(None)
     #items = server_list_all
     l = list(items)
-    la = list(server_list_all)
+    #la = list(server_list_all)
     js = jsonify(l)
-    return str(la)
+    return str(l)
 
 @app.route('/new', methods=['POST'])
 def new():
@@ -56,33 +57,31 @@ def query_one(query_id):
 # Takes a dictionary list that was from mongodb and makes the dereferences the data to point to the write id.
 # Does this process by iterating through a list and adding the element to the parent.
 def dereference_children(hware_dict):
+    server_dict = get_server_dict()
     machines = []
     for element in hware_dict:
-        hiearchy = __de_children(element)
+        hiearchy = __de_children(element, server_dict)
         machines.append(hiearchy)
     return machines
 
-def __de_children(parent):
+def __de_children(parent, servers_dict):
     if 'child' in parent:
-        return None
+        # There can be multiple children per parent
+        for child in parent['child']:
+            return None
     return None
-    #new_list = []
-    #substitute(parent_dict)
-    #for machine in parent_dict:
-    #    if "child" in machine:
-    #        deref = []
-    #        for child in machine['child']:
-    #            child_ele = query(child)
-    #            deref.append(child_ele)
-    #        return None
-        #if "parent" in item:
-        #    par_id = item["parent"]
-        #    cur_id = item["_id"]
 
-        #    return None
-        #else:
-        #    new_list.append(item)
-    #return machine_dict
+def get_server_dict():
+    server_list_all = query_all(None)
+    all_arr = {}
+    for ele in server_list_all:
+        key = ele['_id']
+        value = ele
+        all_arr[key] = value
+    server_dict_all = all_arr
+    return server_dict_all
+#init(app)
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)
