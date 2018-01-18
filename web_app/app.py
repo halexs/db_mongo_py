@@ -11,7 +11,7 @@ client = MongoClient(
 #db = client.tododb
 db = client.servers
 collection = db.machines
-#server_list_all = query_all(None)
+server_list_all = []
 
 @app.route('/')
 def hello():
@@ -23,11 +23,14 @@ def todo():
     #_items = db.machines.find({'child'})
     query1 = {'child':{'$exists':True}}
     query2 = None
-    items = query_all(query1)
+    query3 = {'type':'hardware'}
+    server_list_all = query_all(None)
+    items = query_all(query3)
     #items = server_list_all
     l = list(items)
+    la = list(server_list_all)
     js = jsonify(l)
-    return str(l)
+    return str(la)
 
 @app.route('/new', methods=['POST'])
 def new():
@@ -52,16 +55,26 @@ def query_one(query_id):
 
 # Takes a dictionary list that was from mongodb and makes the dereferences the data to point to the write id.
 # Does this process by iterating through a list and adding the element to the parent.
-def dereference(machine_dict):
-    new_list = []
-    substitute(machine_dict)
-    for machine in machine_dict:
-        if "child" in machine:
-            deref = []
-            for child in machine['child']:
-                child_ele = query(child)
-                deref.append(child_ele)
-            return None
+def dereference_children(hware_dict):
+    machines = []
+    for element in hware_dict:
+        hiearchy = __de_children(element)
+        machines.append(hiearchy)
+    return machines
+
+def __de_children(parent):
+    if 'child' in parent:
+        return None
+    return None
+    #new_list = []
+    #substitute(parent_dict)
+    #for machine in parent_dict:
+    #    if "child" in machine:
+    #        deref = []
+    #        for child in machine['child']:
+    #            child_ele = query(child)
+    #            deref.append(child_ele)
+    #        return None
         #if "parent" in item:
         #    par_id = item["parent"]
         #    cur_id = item["_id"]
@@ -69,7 +82,7 @@ def dereference(machine_dict):
         #    return None
         #else:
         #    new_list.append(item)
-    return machine_dict
+    #return machine_dict
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)
