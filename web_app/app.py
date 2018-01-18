@@ -67,8 +67,13 @@ def dereference_children(hware_dict):
 def __de_children(parent, servers_dict):
     if 'child' in parent:
         # There can be multiple children per parent
-        for child in parent['child']:
-            return None
+        child_list = parent['child']
+        [servers_dict[x] for x in child_list]
+        parent['child'] = [servers_dict[x] for x in child_list]
+        #for child in parent['child']:
+        #    ch_id = child
+        #    child = server_dict[ch_id]
+        #    __de_children(child)
     return None
 
 def get_server_dict():
